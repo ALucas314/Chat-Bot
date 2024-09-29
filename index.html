@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbot de Atendimento</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">
+        <h2>Atendimento Virtual</h2>
+      </div>
+      <div class="chat-box" id="result">
+        <!-- As mensagens do chat aparecerão aqui -->
+      </div>
+      <div class="chat-input">
+        <input
+          type="text"
+          id="inputQuestion"
+          placeholder="Digite sua mensagem..."
+          onkeydown="if (event.key === 'Enter') sendMessage()"
+        />
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
