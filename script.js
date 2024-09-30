@@ -66,7 +66,7 @@ function showNavigationSequence() {
     },
     {
       image: "./img/nav4.png",
-      text: "Aqui você encontra o rodapé com links úteis. Pressione 8 para voltar ao menu anterior.",
+      text: "Aqui você encontra o rodapé com links úteis. Pressione 8 selecionar outro plano.",
     },
   ];
 
@@ -79,7 +79,7 @@ function showNavigationSequence() {
       currentStep++;
     } else {
       displayBotMessage(
-        "Essas são as principais seções do site. Pressione 8 para voltar ao menu anterior."
+        "Essas são as principais seções do site. Pressione 8 selecionar outro plano."
       );
       aguardandoVoltarMenu = true; // Espera pela entrada do usuário
     }
@@ -103,7 +103,7 @@ function showMobileNavigationSequence() {
     },
     {
       image: "./img/mobileNav2.png",
-      text: "Aqui você pode acessar as opções do menu. Pressione 8 para voltar ao menu anterior.",
+      text: "Aqui você pode acessar as opções do menu. Pressione 8 selecionar outro plano.",
     },
   ];
 
@@ -116,7 +116,7 @@ function showMobileNavigationSequence() {
       currentStep++;
     } else {
       displayBotMessage(
-        "Essas são as principais seções da navegação mobile. Pressione 8 para voltar ao menu anterior."
+        "Essas são as principais seções da navegação mobile. Pressione 8 selecionar outro plano."
       );
       aguardandoVoltarMenu = true; // Espera pela entrada do usuário
     }
@@ -135,7 +135,7 @@ function showMobileNavigationSequence() {
 function showQRCode() {
   const qrCodeSteps = [
     {
-      image: "./img/QrCode.png",
+      image: "./img/qrcode.png",
       link: "https://dev-bank-ten.vercel.app/",
       text: "Aqui está o QR-code para acessar a versão mobile do site. Use seu smartphone para escanear e acessar rapidamente.",
     },
@@ -148,7 +148,9 @@ function showQRCode() {
     );
   });
 
-  displayBotMessage("Pressione 8 para voltar ao menu anterior.");
+  displayBotMessage(
+    "Pressione 8 para voltar ao menu anterior.\nPressione 0 para encerrar o atendimento."
+  );
   aguardandoVoltarMenu = true; // Espera pela entrada do usuário
 }
 
@@ -157,12 +159,13 @@ function initiateChat(message) {
   console.log("Iniciando o chat com a mensagem:", message); // Para depuração
   if (message === "1") {
     displayBotMessage(
-      "Escolha um serviço: \n1 - Desenvolvimento de Software\n2 - Consultoria\n3 - Teste de Software\n4 - Dúvidas\nDigite o número correspondente. Pressione 8 para voltar ao menu anterior."
+      "Escolha um serviço: \n1 - Desenvolvimento de Software\n2 - Consultoria\n3 - Teste de Software\n4 - Dúvidas\nDigite o número correspondente. Pressione 8 selecionar outro plano."
     );
     atendimentoIniciado = true;
     respostaEsperada = true;
   } else if (message === "0") {
     displayBotMessage("Obrigado pela atenção! Volte sempre.");
+    atendimentoIniciado = false; // Para finalizar o atendimento
   } else {
     displayBotMessage("Escolha 1 para iniciar o atendimento ou 0 para sair.");
   }
@@ -179,25 +182,25 @@ function respondToUser(message) {
       switch (message) {
         case "1":
           displayBotMessage(
-            "Serviço de Desenvolvimento selecionado.\nEscolha o plano:\n4 - START (R$ 500)\n5 - MEGA (R$ 1000)\n6 - ULTRA (R$ 1500)\nDigite o número correspondente. Pressione 8 para voltar ao menu anterior."
+            "Serviço de Desenvolvimento selecionado.\nEscolha o plano:\n4 - START (R$ 500)\n5 - MEGA (R$ 1000)\n6 - ULTRA (R$ 1500)\nDigite o número correspondente. Pressione 8 selecionar outro plano."
           );
           aguardandoPlano = true;
           break;
         case "2":
           displayBotMessage(
-            "Serviço de Consultoria selecionado.\nEscolha o plano:\n4 - START (R$ 500)\n5 - MEGA (R$ 1000)\n6 - ULTRA (R$ 1500)\nDigite o número correspondente. Pressione 8 para voltar ao menu anterior."
+            "Serviço de Consultoria selecionado.\nEscolha o plano:\n4 - START (R$ 500)\n5 - MEGA (R$ 1000)\n6 - ULTRA (R$ 1500)\nDigite o número correspondente. Pressione 8 selecionar outro plano."
           );
           aguardandoPlano = true;
           break;
         case "3":
           displayBotMessage(
-            "Serviço de Teste de Software selecionado.\nEscolha o plano:\n4 - START (R$ 500)\n5 - MEGA (R$ 1000)\n6 - ULTRA (R$ 1500)\nDigite o número correspondente. Pressione 8 para voltar ao menu anterior."
+            "Serviço de Teste de Software selecionado.\nEscolha o plano:\n4 - START (R$ 500)\n5 - MEGA (R$ 1000)\n6 - ULTRA (R$ 1500)\nDigite o número correspondente. Pressione 8 selecionar outro plano."
           );
           aguardandoPlano = true;
           break;
         case "4":
           displayBotMessage(
-            "Escolha sua dúvida:\n1 - Navegação Desktop\n2 - Navegação Mobile\n3 - Acessar QR-Code versão mobile. Digite o número correspondente. Pressione 8 para voltar ao menu anterior."
+            "Escolha sua dúvida:\n1 - Navegação Desktop\n2 - Navegação Mobile\n3 - Acessar QR-Code versão mobile. Digite o número correspondente. Pressione 8 selecionar outro plano."
           );
           duvidasSelecionadas = true;
           break;
@@ -205,7 +208,9 @@ function respondToUser(message) {
           voltarAoMenuAnterior();
           break;
         default:
-          displayBotMessage("Escolha uma das opções válidas.");
+          displayBotMessage(
+            "O atendimento foi encerrado. Obrigado pela atenção."
+          );
           break;
       }
     }
@@ -235,51 +240,49 @@ function handleDuvidas(message) {
   duvidasSelecionadas = false;
 }
 
-// Função para lidar com seleção de planos
+// Função para lidar com a seleção do plano
 function handlePlanoSelection(message) {
+  let planoSelecionado = "";
+  let valorPlano = 0;
+
   switch (message) {
     case "4":
-      adicionarPlano("START", 500);
+      planoSelecionado = "START";
+      valorPlano = 500;
       break;
     case "5":
-      adicionarPlano("MEGA", 1000);
+      planoSelecionado = "MEGA";
+      valorPlano = 1000;
       break;
     case "6":
-      adicionarPlano("ULTRA", 1500);
+      planoSelecionado = "ULTRA";
+      valorPlano = 1500;
       break;
     case "8":
       voltarAoMenuAnterior();
-      break;
+      return; // Retorna para evitar continuar o processo
     default:
       displayBotMessage("Escolha um plano válido.");
-      break;
+      return; // Evita continuar se a escolha não é válida
   }
-}
 
-// Função para adicionar plano à compra
-function adicionarPlano(nome, preco) {
-  planosSelecionados.push(nome);
-  totalCompra += preco;
-  displayBotMessage(`Plano ${nome} adicionado. Total: R$ ${totalCompra}`);
-  aguardandoPlano = false; // Reseta aguardandoPlano após a seleção
+  planosSelecionados.push(planoSelecionado);
+  totalCompra += valorPlano;
+
+  displayBotMessage(
+    `Você selecionou o plano ${planoSelecionado} por R$ ${valorPlano}.\nTotal da compra: R$ ${totalCompra}.\nPressione 0 para encerrar o atendimento\nPressione 8 selecionar outro plano.`
+  );
+  aguardandoPlano = false; // Resetando a espera pelo plano
 }
 
 // Função para voltar ao menu anterior
 function voltarAoMenuAnterior() {
-  displayBotMessage("Voltando ao menu anterior...");
-  atendimentoIniciado = false; // Reseta atendimento
-  respostaEsperada = false; // Reseta resposta esperada
-  duvidasSelecionadas = false; // Reseta seleção de dúvidas
-  aguardandoPlano = false; // Reseta aguardando plano
-  aguardandoVoltarMenu = false; // Reseta aguardando retorno ao menu
-  totalCompra = 0; // Reseta o total da compra
-  planosSelecionados = []; // Reseta a lista de planos
   displayBotMessage(
-    "Menu inicial:\n1 - Iniciar atendimento\n0 - Sair\nDigite o número correspondente."
+    "Escolha um serviço: \n1 - Desenvolvimento de Software\n2 - Consultoria\n3 - Teste de Software\n4 - Dúvidas\nDigite o número correspondente. Pressione 8 selecionar outro plano."
   );
+  atendimentoIniciado = true;
+  respostaEsperada = true; // Espera nova resposta
 }
-
-// Event Listener para o botão de enviar
 
 document.addEventListener("DOMContentLoaded", function () {
   displayBotMessage(
