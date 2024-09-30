@@ -135,7 +135,7 @@ function showMobileNavigationSequence() {
 function showQRCode() {
   const qrCodeSteps = [
     {
-      image: "./img/Qrcode.png",
+      image: "./img/QrCode.png",
       link: "https://dev-bank-ten.vercel.app/",
       text: "Aqui está o QR-code para acessar a versão mobile do site. Use seu smartphone para escanear e acessar rapidamente.",
     },
