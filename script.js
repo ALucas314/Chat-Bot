@@ -17,7 +17,7 @@ function sendMessage() {
     if (!atendimentoIniciado) {
       initiateChat(message);
     } else {
-      if (aguardandoVoltarMenu && message === "5") {
+      if (aguardandoVoltarMenu && message === "8") {
         voltarAoMenuAnterior(); // Função para voltar ao menu
       } else {
         respondToUser(message.toLowerCase());
@@ -135,13 +135,17 @@ function showMobileNavigationSequence() {
 function showQRCode() {
   const qrCodeSteps = [
     {
-      image: "./img/QrCode.png",
+      image: "./img/qrcode.png",
+      link: "https://dev-bank-ten.vercel.app/",
       text: "Aqui está o QR-code para acessar a versão mobile do site. Use seu smartphone para escanear e acessar rapidamente.",
     },
   ];
 
-  qrCodeSteps.forEach(({ image, text }) => {
+  qrCodeSteps.forEach(({ image, link, text }) => {
     displayImageAndText(image, text);
+    displayBotMessage(
+      `Volte para a página home clicando aqui: <a href="${link}" target="_blank">Link</a>`
+    );
   });
 
   displayBotMessage("Pressione 8 para voltar ao menu anterior.");
@@ -243,47 +247,39 @@ function handlePlanoSelection(message) {
     case "6":
       adicionarPlano("ULTRA", 1500);
       break;
-    case "7":
-      encerrarCompra();
-      break;
     case "8":
       voltarAoMenuAnterior();
       break;
     default:
-      displayBotMessage(
-        "Escolha uma das opções válidas ou pressione 7 para encerrar. Pressione 8 para voltar ao menu anterior."
-      );
+      displayBotMessage("Escolha um plano válido.");
+      break;
   }
 }
 
-// Adiciona o plano ao carrinho
-function adicionarPlano(nomePlano, valorPlano) {
-  planosSelecionados.push({ nome: nomePlano, valor: valorPlano });
-  totalCompra += valorPlano;
-  displayBotMessage(
-    `Plano ${nomePlano} adicionado. Total: R$ ${totalCompra}. Pressione 7 para encerrar a compra ou 8 para voltar ao menu anterior.`
-  );
-}
-
-// Encerra a compra
-function encerrarCompra() {
-  displayBotMessage(
-    `Compra finalizada. Total a pagar: R$ ${totalCompra}. Obrigado!`
-  );
-  atendimentoIniciado = false; // Reinicia o atendimento
+// Função para adicionar plano à compra
+function adicionarPlano(nome, preco) {
+  planosSelecionados.push(nome);
+  totalCompra += preco;
+  displayBotMessage(`Plano ${nome} adicionado. Total: R$ ${totalCompra}`);
+  aguardandoPlano = false; // Reseta aguardandoPlano após a seleção
 }
 
 // Função para voltar ao menu anterior
 function voltarAoMenuAnterior() {
   displayBotMessage("Voltando ao menu anterior...");
-  atendimentoIniciado = false;
-  duvidasSelecionadas = false;
-  aguardandoPlano = false;
-  aguardandoVoltarMenu = false; // Reseta a espera do usuário
+  atendimentoIniciado = false; // Reseta atendimento
+  respostaEsperada = false; // Reseta resposta esperada
+  duvidasSelecionadas = false; // Reseta seleção de dúvidas
+  aguardandoPlano = false; // Reseta aguardando plano
+  aguardandoVoltarMenu = false; // Reseta aguardando retorno ao menu
+  totalCompra = 0; // Reseta o total da compra
+  planosSelecionados = []; // Reseta a lista de planos
   displayBotMessage(
-    "Escolha um serviço: \n1 - Desenvolvimento de Software\n2 - Consultoria\n3 - Teste de Software\n4 - Dúvidas\nDigite o número correspondente. Pressione 8 para voltar ao menu anterior."
+    "Menu inicial:\n1 - Iniciar atendimento\n0 - Sair\nDigite o número correspondente."
   );
 }
+
+// Event Listener para o botão de enviar
 
 document.addEventListener("DOMContentLoaded", function () {
   displayBotMessage(
